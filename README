@@ -3,6 +3,8 @@ DXライブラリ以外の部分で使えそうなのをテキトーに作ってみる
 boostソフトウェアライセンスにするので使いたい方はご自由に
 
 リファレンス
-object_array.hpp
-　std::array<std::unique_ptr>的な
-　余裕でSTLの要件を満たさない
+config.hpp
+    多分constexprの有無を判別してくれる、多分
+range_number.hpp
+    代入した数を特定範囲にまるめてくれる(下なら下限に、上なら上限に)
+    constexpr対応コンパイラなら多分constexprで使える

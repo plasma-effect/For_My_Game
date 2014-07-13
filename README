@@ -8,3 +8,6 @@ config.hpp
 range_number.hpp
     代入した数を特定範囲にまるめてくれる(下なら下限に、上なら上限に)
     constexpr対応コンパイラなら多分constexprで使える
+modulo_number
+    代入した数を特定範囲の剰余類にする
+    constexpr対応コンパイラなら(ry

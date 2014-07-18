@@ -17,3 +17,9 @@
 #define PLASMA_CONSTEXPR constexpr
 #define PLASMA_SWITCH_CONSTEXPR constexpr
 #endif
+
+#if defined(USE_SPROUT_TUPLE)
+#define PLASMA_TUPLE_NAMESPACE sprout
+#else
+#define PLASMA_TUPLE_NAMESPACE std
+#endif

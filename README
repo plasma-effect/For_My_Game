@@ -13,7 +13,10 @@ modulo_number.hpp
     constexpr対応コンパイラなら(ry
 index_sequence.hpp
     俗にいうindex_tupleイディオムとかいうやつ
-
+tuple_to_func.hpp
+    関数の引数にtupleの中身をそのまま渡す関数
+    基本std::tupleにしか対応してないしあんまりテストもしてない
+    config.hppをincludeする前にUSE_SPROUT_TUPLEをdefineしたらsprout::tupleで使えるかもしれない
 
 使える環境(厳密に試してないので間違ってるかもしれない)
 Visual C++ 12.0以降

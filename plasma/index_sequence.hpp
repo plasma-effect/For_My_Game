@@ -49,11 +49,11 @@ namespace plasma
 		typedef detail::index_range_impl<typename index_count<End - Begin + 1>::type, Begin> type;
 	};
 
-	template<index_t N>typename index_count<N>::type make_index_count()
+	template<index_t N>PLASMA_CONSTEXPR typename index_count<N>::type make_index_count()
 	{
 		return typename index_count<N>::type{};
 	}
-	template<index_t Begin, index_t End>typename index_range<Begin, End>::type make_index_range()
+	template<index_t Begin, index_t End>PLASMA_CONSTEXPR typename index_range<Begin, End>::type make_index_range()
 	{
 		return typename index_range<Begin, End>::type{};
 	}

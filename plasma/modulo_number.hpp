@@ -23,7 +23,7 @@ namespace plasma
 	PLASMA_CONSTEXPR modulo_number(type const& v):
 	    value_(v.value_ < T() ? ((v.value_ & Max) + Max): (v % Max)){}
 
-	PLASMA_CONSTEXPR T()const
+	PLASMA_CONSTEXPR operator T()const
 	{
 	    return value_;
 	}

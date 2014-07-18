@@ -8,6 +8,13 @@ config.hpp
 range_number.hpp
     代入した数を特定範囲にまるめてくれる(下なら下限に、上なら上限に)
     constexpr対応コンパイラなら多分constexprで使える
-modulo_number
+modulo_number.hpp
     代入した数を特定範囲の剰余類にする
     constexpr対応コンパイラなら(ry
+index_sequence.hpp
+    俗にいうindex_tupleイディオムとかいうやつ
+
+
+使える環境(厳密に試してないので間違ってるかもしれない)
+Visual C++ 12.0以降
+gcc clang constexprと可変長引数テンプレートが対応してるver(テキトー)

@@ -18,8 +18,14 @@
 #define PLASMA_SWITCH_CONSTEXPR constexpr
 #endif
 
-#if defined(USE_SPROUT_TUPLE)
-#define PLASMA_TUPLE_NAMESPACE sprout
-#else
-#define PLASMA_TUPLE_NAMESPACE std
+#ifndef PLASMA_NAMESPACE
+#define PLASMA_NAMESPACE std
+#endif
+
+#ifndef PLASMA_TUPLE_INCLUDE
+#define PLASMA_TUPLE_INCLUDE <tuple>
+#endif
+
+#ifndef PLASMA_ARRAY_INCLUDE
+#define PLASMA_ARRAY_INCLUDE <array>
 #endif

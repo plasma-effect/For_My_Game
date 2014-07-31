@@ -46,7 +46,7 @@ namespace plasma
 	};
 	template<index_t Begin, index_t End>struct index_range
 	{
-		typedef detail::index_range_impl<typename index_count<End - Begin + 1>::type, Begin> type;
+		typedef typename detail::index_range_impl<typename index_count<End - Begin + 1>::type, Begin>::type type;
 	};
 
 	template<index_t N>PLASMA_CONSTEXPR typename index_count<N>::type make_index_count()

@@ -35,6 +35,7 @@ namespace plasma
 		using type = T;
 	};
 
+	template<index_t I, class T>using tuple_element_type = typename tuple_element<I, T>::type;
 	namespace detail
 	{
 		template<index_t N, class T>struct get_impl

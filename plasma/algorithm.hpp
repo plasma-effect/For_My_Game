@@ -20,13 +20,24 @@ namespace plasma
 			{
 				return {func(Is)...};
 			}
-
-			
 		}
+
 		template<index_t B, index_t E, class F>PLASMA_CONSTEXPR auto make_array(F func)
 			->PLASMA_NAMESPACE::array<decltype(func(0u)), E-B+1 >
 		{
 			return detail::make_array_impl(func, make_index_range<B, E>());
+		}
+
+		template<class InputIterator, class Predicate>
+			inline void ptr_delete_if(InputIterator beg, InputIterator end, Predicate pred)
+		{
+			for (; beg != end; ++beg)
+			{
+				if (*beg && pred(**beg))
+				{
+					(*beg).reset();
+				}
+			}
 		}
 	}
 }

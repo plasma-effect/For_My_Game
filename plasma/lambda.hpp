@@ -14,18 +14,21 @@ namespace plasma
 	{
 		namespace types
 		{
+			template<class BaseFunc, class InsideType, class ArgTuple>struct return_type_getter;
+			
 			template<class Function, class... Insides>struct inside_t
 			{
 				Function func_;
 				tuple<Insides...> inside_;
 				typedef tuple<Insides...> this_tuple;
+				typedef inside_t<Function, Insides...> this_type;
 
 				static PLASMA_SWITCH_CONSTEXPR index_t size = sizeof...(Insides);
 				
 
 				template<class BaseFunc, class... Ts, index_t... Is>PLASMA_CONSTEXPR
 					auto run(BaseFunc* ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
-					->decltype(func_((get<Is>(inside_).run(ptr, make_index_count<tuple_element_type<Is, this_tuple>::size>(), t))...))
+					->typename return_type_getter<BaseFunc,this_type,tuple<Ts...>>::type
 				{
 					return func_((get<Is>(inside_).run(ptr, make_index_count<tuple_element_type<Is, this_tuple>::size>(), t))...);
 				}
@@ -68,9 +71,7 @@ namespace plasma
 				
 				template<class BaseFunc, class... Ts, index_t... Is>PLASMA_CONSTEXPR
 					auto run(BaseFunc* ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
-					->decltype((if_inside_.run(ptr, make_index_count<1>(), t)) ?
-					get<0>(inside_).run(ptr, make_index_count<True::size>(), t) :
-					get<1>(inside_).run(ptr, make_index_count<False::size>(), t))
+					->decltype(get<0>(inside_).run(ptr, make_index_count<True::size>(), t))
 				{
 					return ((if_inside_.run(ptr, make_index_count<1>(), t)) ?
 						get<0>(inside_).run(ptr, make_index_count<True::size>(), t) :
@@ -91,7 +92,33 @@ namespace plasma
 					return (*ptr)((get<Is>(insides_).run(ptr, make_index_count<tuple_element_type<Is, this_tuple>::size>(), t))...);
 				}
 			};
+			template<class BaseFunc, class Function, class... Insides, class Tuple>
+				struct return_type_getter<BaseFunc, inside_t<Function, Insides...>, Tuple>
+			{
+				typedef decltype(Function{}(typename return_type_getter<BaseFunc, Insides, Tuple >::type{}...)) type;
+			};
+			template<class BaseFunc,class IfInside,class True,class False,class Tuple>
+				struct return_type_getter < BaseFunc, inside_t<if_t<IfInside>, True, False>, Tuple >
+			{
+				typedef typename return_type_getter<BaseFunc, True, Tuple>::type type;
+			};
+			template<class BaseFunc,class... Insides,class Tuple>
+				struct return_type_getter < BaseFunc, inside_t<this_t, Insides...>, Tuple >
+			{
+				typedef typename BaseFunc::return_type type;
+			};
+			template<class BaseFunc,index_t I,class Tuple>
+				struct return_type_getter < BaseFunc, arg_place_holder_t<I>, Tuple >
+			{
+				typedef tuple_element_type<I, Tuple> type;
+			};
+			template<class BaseFunc,class ValueType,class Tuple>
+				struct return_type_getter < BaseFunc, constant_t<ValueType>, Tuple >
+			{
+				typedef ValueType type;
+			};
 		}
+
 		template<class Function, class... Insides>PLASMA_CONSTEXPR types::inside_t<Function, Insides...> _(Function f, Insides... is)
 		{
 			return types::inside_t < Function, Insides... > {f,make_tuple(is...)};

@@ -9,7 +9,8 @@
 #include<plasma/utility.hpp>
 namespace plasma
 {
-	template<class T,class... Ts>struct tuple
+	template<class... Ts>struct tuple;
+	template<class T,class... Ts>struct tuple<T,Ts...>
 	{
 		typedef T value_type;
 		typedef tuple<Ts...> next_type;

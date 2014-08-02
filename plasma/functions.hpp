@@ -10,17 +10,19 @@
 
 namespace plasma
 {
-	namespace functions
+	namespace operators
 	{
+
 #		define PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(op,name)\
 		struct PLASMA_PP_CAT(name,_t)\
 		{\
-			template<class T,class U>PLASMA_CONSTEXPR auto operator()(T a, U b)->decltype((a op b))\
+			template<class T,class U>PLASMA_CONSTEXPR auto operator()(T a, U b)const->decltype((a op b))\
 			{\
 				return a op b;\
 			}\
 		};\
-		PLASMA_SWITCH_CONSTEXPR PLASMA_PP_CAT(name,_t) name
+		PLASMA_SWITCH_CONSTEXPR PLASMA_PP_CAT(name,_t) name{}
+
 
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(+, add);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(-, sub);
@@ -29,8 +31,8 @@ namespace plasma
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(%, mod);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(<< , l_shift);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(>> , r_shift);
-		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(&&, and);
-		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(|| , or);
+		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(&&, logic_and);
+		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(|| , logic_or);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(< , less_than);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(> , more_than);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_2ARGS(<= ,less_equal);
@@ -45,16 +47,39 @@ namespace plasma
 #		define PLASMA_PP_MAKE_OPERATOR_OBJECT_1ARGS(op,name)\
 		struct PLASMA_PP_CAT(name,_t)\
 		{\
-			template<class T>PLASMA_CONSTEXPR auto operator()(T a)->decltype((op a))\
+			template<class T>PLASMA_CONSTEXPR auto operator()(T a)const->decltype((op a))\
 			{\
 				return op a;\
 			}\
 		};\
-		PLASMA_SWITCH_CONSTEXPR PLASMA_PP_CAT(name,_t) name
+		PLASMA_SWITCH_CONSTEXPR PLASMA_PP_CAT(name,_t) name{}
 
-		PLASMA_PP_MAKE_OPERATOR_OBJECT_1ARGS(!, not);
+		PLASMA_PP_MAKE_OPERATOR_OBJECT_1ARGS(!, logic_not);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_1ARGS(+, plus);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_1ARGS(-, minus);
 		PLASMA_PP_MAKE_OPERATOR_OBJECT_1ARGS(~, bit_not);
+
+	}
+
+	namespace functions
+	{
+
+#		define PLASMA_PP_MAKE_FUNCTION_OBJECT_1ARGS(impl,name)\
+		struct PLASMA_PP_CAT(name,_t)\
+		{\
+			template<class T>auto operator()(T a)const->decltype(impl)\
+			{\
+				return impl;\
+			}\
+		};\
+		PLASMA_SWITCH_CONSTEXPR PLASMA_PP_CAT(name,_t) name{}
+
+		PLASMA_PP_MAKE_FUNCTION_OBJECT_1ARGS((a + 1), succ);
+		PLASMA_PP_MAKE_FUNCTION_OBJECT_1ARGS((a - 1), prev);
+		PLASMA_PP_MAKE_FUNCTION_OBJECT_1ARGS((a == 0), is_zero);
+
+
+
+
 	}
 }

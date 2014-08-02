@@ -24,7 +24,7 @@ namespace plasma
 				
 
 				template<class BaseFunc, class... Ts, index_t... Is>PLASMA_CONSTEXPR
-					auto run(BaseFunc const& ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
+					auto run(BaseFunc* ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
 					->decltype(func_((get<Is>(inside_).run(ptr, make_index_count<tuple_element_type<Is, this_tuple>::size>(), t))...))
 				{
 					return func_((get<Is>(inside_).run(ptr, make_index_count<tuple_element_type<Is, this_tuple>::size>(), t))...);
@@ -35,7 +35,7 @@ namespace plasma
 				static PLASMA_SWITCH_CONSTEXPR index_t size = 1;
 
 				template<class BaseFunc,class... Ts,index_t... Is>PLASMA_CONSTEXPR
-					tuple_element_type<I,tuple<Ts...>> run(BaseFunc const&, index_sequence<Is...>, tuple<Ts...> const& t)const
+					tuple_element_type<I,tuple<Ts...>> run(BaseFunc*, index_sequence<Is...>, tuple<Ts...> const& t)const
 				{
 					return get<I>(t);
 				}
@@ -55,7 +55,7 @@ namespace plasma
 				static PLASMA_SWITCH_CONSTEXPR index_t size = 1;
 
 				template<class BaseFunc,class... Ts,index_t... Is>PLASMA_CONSTEXPR
-					bool run(BaseFunc const& ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
+					bool run(BaseFunc* ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
 				{
 					return inside_.run(ptr, plasma::make_index_count<Inside::size>(), t);
 				}
@@ -67,7 +67,7 @@ namespace plasma
 				static PLASMA_SWITCH_CONSTEXPR index_t size = 2;
 				
 				template<class BaseFunc, class... Ts, index_t... Is>PLASMA_CONSTEXPR
-					auto run(BaseFunc const& ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
+					auto run(BaseFunc* ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
 					->decltype((if_inside_.run(ptr, make_index_count<1>(), t)) ?
 					get<0>(inside_).run(ptr, make_index_count<True::size>(), t) :
 					get<1>(inside_).run(ptr, make_index_count<False::size>(), t))
@@ -86,8 +86,7 @@ namespace plasma
 				static PLASMA_SWITCH_CONSTEXPR index_t size = sizeof...(Insides);
 
 				template<class BaseFunc,class... Ts,index_t... Is>PLASMA_CONSTEXPR
-					auto run(BaseFunc const& ptr, index_sequence<Is...>, tuple<Ts...>const& t)const
-					->decltype((*ptr)((get<Is>(insides_).run(ptr, make_index_count<tuple_element_type<Is, this_tuple>::size>(), t))...))
+					typename BaseFunc::return_type run(BaseFunc* ptr, index_sequence<Is...>, tuple<Ts...>const& t)const
 				{
 					return (*ptr)((get<Is>(insides_).run(ptr, make_index_count<tuple_element_type<Is, this_tuple>::size>(), t))...);
 				}
@@ -116,6 +115,7 @@ namespace plasma
 	template<class RetType, class... ArgTypes, class FirstInside>
 		struct lambda_t<RetType(ArgTypes...),FirstInside>
 	{
+		typedef RetType return_type;
 		FirstInside first_;
 
 		PLASMA_CONSTEXPR RetType operator()(ArgTypes... args)const

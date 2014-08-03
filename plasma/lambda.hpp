@@ -71,7 +71,7 @@ namespace plasma
 				
 				template<class BaseFunc, class... Ts, index_t... Is>PLASMA_CONSTEXPR
 					auto run(BaseFunc* ptr, index_sequence<Is...>, tuple<Ts...> const& t)const
-					->decltype(get<0>(inside_).run(ptr, make_index_count<True::size>(), t))
+					->typename return_type_getter<BaseFunc,True,tuple<Ts...>>::type
 				{
 					return ((if_inside_.run(ptr, make_index_count<1>(), t)) ?
 						get<0>(inside_).run(ptr, make_index_count<True::size>(), t) :

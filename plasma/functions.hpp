@@ -67,7 +67,7 @@ namespace plasma
 #		define PLASMA_PP_MAKE_FUNCTION_OBJECT_1ARGS(impl,name)\
 		struct PLASMA_PP_CAT(name,_t)\
 		{\
-			template<class T>auto operator()(T a)const->decltype(impl)\
+			template<class T>PLASMA_CONSTEXPR auto operator()(T a)const->decltype(impl)\
 			{\
 				return impl;\
 			}\

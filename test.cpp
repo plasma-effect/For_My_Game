@@ -13,7 +13,7 @@ int main()
 	PLASMA_CONSTEXPR auto func = plasma::lambda<int(int)>
 		(if_(is_zero, arg<0>()),
 		constant_(0),
-		_(add, arg<0>(), _(this_, _(prev, arg<0>()))));
+		_(this_, _(prev, arg<0>())));
 	PLASMA_CONSTEXPR auto M = func(3);
 	std::cout<<M <<std::endl;
 }

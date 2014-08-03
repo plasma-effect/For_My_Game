@@ -144,10 +144,11 @@ namespace plasma
 	{
 		typedef RetType return_type;
 		FirstInside first_;
+		static PLASMA_SWITCH_CONSTEXPR index_t size = FirstInside::size;
 
 		PLASMA_CONSTEXPR RetType operator()(ArgTypes... args)const
 		{
-			return first_.run(this, make_index_count<FirstInside::size>(), make_tuple(args...));
+			return first_.run(this, make_index_count<size>(), make_tuple(args...));
 		}
 	};
 

@@ -16,7 +16,17 @@ index_sequence.hpp
 tuple_to_func.hpp
     関数の引数にtupleの中身をそのまま渡す関数
     基本std::tupleにしか対応してないしあんまりテストもしてない
-    config.hppをincludeする前にUSE_SPROUT_TUPLEをdefineしたらsprout::tupleで使えるかもしれない
+    config.hppをincludeする前にPLASMA_USE_SPROUTをdefineしたらsprout::tupleで使えるかもしれない
+algorithm.hpp
+    make_array(F func,index_sequence) index_sequenceのIsをfuncに渡した結果で新しいarrayを構成する
+    ptr_delete_if(InputIterator beg,InputIterator end,Predicate pred)
+	渡したスマートポインタオブジェクトを格納したコンテナのイテレータの内「中身が空でない」ものを「predに渡した結果がtrue」である場合releaseする
+functions.hpp
+    operatorを関数オブジェクトにラップしたやつとか
+lambda.hpp
+    constexprの文脈で使える無名関数
+    ただしclangではバグの関係で使えない
+
 
 使える環境(厳密に試してないので間違ってるかもしれない)
 Visual C++ 12.0以降

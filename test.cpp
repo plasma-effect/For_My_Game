@@ -1,19 +1,15 @@
 #pragma message(__TIME__)
 #pragma message(__DATE__)
 
-#include<plasma/lambda.hpp>
-#include<plasma/functions.hpp>
+#include<plasma/static_assert.hpp>
 #include<iostream>
+
+constexpr int fact(int N)
+{
+    return (N == 0 ? 1 : N * fact(N - 1));
+}
 
 int main()
 {
-	using namespace plasma::place_holder;
-	using namespace plasma::functions;
-	using namespace plasma::operators;
-	PLASMA_CONSTEXPR auto func = plasma::lambda<int(int)>
-		(if_(is_zero, arg<0>()),
-		constant_(0),
-		_(this_, _(prev, arg<0>())));
-	PLASMA_CONSTEXPR auto M = func(3);
-	std::cout<<M <<std::endl;
+    PLASMA_PP_STATIC_ASSERT_1NUM(false,"fact(5) == ",fact(5),);
 }

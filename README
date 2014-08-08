@@ -26,7 +26,9 @@ functions.hpp
 lambda.hpp
     constexprの文脈で使える無名関数
     ただしclangではバグの関係で使えない
-
+static_assert.hpp
+    PLASMA_PP_STATIC_ASSERT_0NUM(cond,str) 普通のstatic_assert
+    PLASMA_PP_STATIC_ASSERT_1NUM(cond,str0,num,str1) 失敗したらstr0 + num + str1と出力される、numは0以上255以下が望ましい(0未満だとunder0に、256以上だとover255になる)
 
 使える環境(厳密に試してないので間違ってるかもしれない)
 Visual C++ 12.0以降

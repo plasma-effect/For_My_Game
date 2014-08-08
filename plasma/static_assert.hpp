@@ -10,7 +10,8 @@
 #define PLASMA_PP_STATIC_ASSERT_0NUM(cond,str) static_assert(cond,str)
 
 #define PLASMA_PP_STATIC_ASSERT_1NUM(cond,str0,num,str1)\
-	struct  PLASMA_PP_CAT(plasma_pp_condition,__LINE__){static PLASMA_SWITCH_CONSTEXPR bool value = cond;static PLASMA_SWITCH_CONSTEXPR unsigned int number = num;};\
+struct  PLASMA_PP_CAT(plasma_pp_condition,__LINE__){static PLASMA_SWITCH_CONSTEXPR bool value = cond;static PLASMA_SWITCH_CONSTEXPR unsigned int number = num;};\
+static_assert((PLASMA_PP_CAT(plasma_pp_condition,__LINE__)::value)||(PLASMA_PP_CAT(plasma_pp_condition,__LINE__)::number < 0),str0 "under0" str1);\
 static_assert((PLASMA_PP_CAT(plasma_pp_condition,__LINE__)::value)||(PLASMA_PP_CAT(plasma_pp_condition,__LINE__)::number != 0),str0 "0" str1);\
 static_assert((PLASMA_PP_CAT(plasma_pp_condition,__LINE__)::value)||(PLASMA_PP_CAT(plasma_pp_condition,__LINE__)::number != 1),str0 "1" str1);\
 static_assert((PLASMA_PP_CAT(plasma_pp_condition,__LINE__)::value)||(PLASMA_PP_CAT(plasma_pp_condition,__LINE__)::number != 2),str0 "2" str1);\

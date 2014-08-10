@@ -4,10 +4,13 @@
 //	http://www.boost.org/LICENSE_1_0.txt)
 #pragma once
 
-#define PLASMA_PP_CAT(a,b) PLASMA_PP_CAT_I(a,b)
-#define PLASMA_PP_CAT_I(a,b) a ## b
+#include<plasma/preprocessor.hpp>
 
 namespace plasma
 {
 	typedef unsigned int index_t;
+	template<class>struct sfinae_helper
+	{
+		typedef void type;
+	};
 }
